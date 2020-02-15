@@ -114,71 +114,71 @@ if(mode){
 
 
 
-// //나만의 부가함수 - 사각형 그리기!!
+//나만의 부가함수 - 사각형 그리기!!
 
-// let startX = 0;
-// let startY = 0;
-// let endX = 0;
-// let endY = 0;
-// let paintingRect = false;
-// // function getPoint(a, b){
-// //     return [a, b];
-// // }
-// function stopPaintingRect(){
-//     paintingRect =false;
-// //     const endX = event.offsetX;
-// //     const endY = event.offsetY;
-// //     getPoint(endX, endY)
+let startX = 0;
+let startY = 0;
+let endX = 0;
+let endY = 0;
+let paintingRect = false;
+// function getPoint(a, b){
+//     return [a, b];
 // }
+function stopPaintingRect(){
+    paintingRect =false;
+//     const endX = event.offsetX;
+//     const endY = event.offsetY;
+//     getPoint(endX, endY)
+}
 
-// //조건문 설정의 중요성. 이게 뭐라고 여기서 그렇게 오류를...
-// function handleRectClick(event){
-//     if(drawingRect===false){
-//         drawingRect = true;
-//         console.log(event)
-//         event.target.style.backgroundColor = "grey";
-//     }
-//     else{
-//         drawingRect = false;
-//         event.target.style.backgroundColor = "white";
-//     }
-// }
-// function onMouseUpRect(event){
-//     if(drawingRect){
-//         endX = event.offsetX;
-//         endY = event.offsetY;
-//         ctx.strokeRect(startX, startY, Math.abs(startX - endX), Math.abs(startY - endY))
-//         paintingRect = false;
-//     }
+//조건문 설정의 중요성. 이게 뭐라고 여기서 그렇게 오류를...
+function handleRectClick(event){
+    if(drawingRect===false){
+        drawingRect = true;
+        console.log(event)
+        event.target.style.backgroundColor = "grey";
+    }
+    else{
+        drawingRect = false;
+        event.target.style.backgroundColor = "white";
+    }
+}
+function onMouseUpRect(event){
+    if(drawingRect){
+        endX = event.offsetX;
+        endY = event.offsetY;
+        ctx.strokeRect(startX, startY, Math.abs(startX - endX), Math.abs(startY - endY))
+        paintingRect = false;
+    }
     
-// }
-// function onMouseDownRect(event){
-//     paintingRect = true;
-//     startX = event.offsetX;
-//     startY = event.offsetY;
+}
+function onMouseDownRect(event){
+    paintingRect = true;
+    startX = event.offsetX;
+    startY = event.offsetY;
     
-//     // const startX = event.offsetX;
-//     // const startY = event.offsetY;
-//     // getPoint(startX, startY)
-// }
+    // const startX = event.offsetX;
+    // const startY = event.offsetY;
+    // getPoint(startX, startY)
+}
 
-// function onMouseMoveRect(event){
-//     if(!drawingRect){
-//         //ctx.beginPath();        
-//         //ctx.moveTo(startX, startY);
-//     }
-//     else{
+function onMouseMoveRect(event){
+    if(!drawingRect){
+        //ctx.beginPath();        
+        //ctx.moveTo(startX, startY);
+    }
+    else{
         
-//     }
-// }
+    }
+}
 
-// if(rect){
-//     if(!painting){
-//         rect.addEventListener("click", handleRectClick);
-//         canvas.addEventListener("mousemove", onMouseMoveRect);
-//         canvas.addEventListener("mousedown", onMouseDownRect);
-//         canvas.addEventListener("mouseup", onMouseUpRect);
-//         canvas.addEventListener("mouseleave", stopPaintingRect);
-//     }
+if(rect){
+    if(!painting){
+        rect.addEventListener("click", handleRectClick);
+        canvas.addEventListener("mousemove", onMouseMoveRect);
+        canvas.addEventListener("mousedown", onMouseDownRect);
+        canvas.addEventListener("mouseup", onMouseUpRect);
+        canvas.addEventListener("mouseleave", stopPaintingRect);
+    }
     
-// }
+}
