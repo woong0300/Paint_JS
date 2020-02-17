@@ -175,11 +175,21 @@ function handleRectClick(event){
 }
 //포인터를 좌상향으로 움직여서 그리면 사각형이 반대방향으로 그려지는 버그!!
 //우하향으로 대각선을 인식해서 그리는 방식이라 오류가 있다!!!
+
+//이걸 해결하기 위해서 조건문 사용했고 그 떄 Math.abs()가 중요하다!!
 function onMouseUpRect(event){
     if(drawingRect){
         endX = event.offsetX;
         endY = event.offsetY;
-        ctx.strokeRect(startX, startY, Math.abs(startX - endX), Math.abs(startY - endY))
+        console.log(endX);
+        if(endX < startX){
+            ctx.strokeRect(endX, endY, Math.abs(startX - endX), Math.abs(startY - endY));
+        }
+        else if(endX > startX){
+            ctx.strokeRect(startX, startY, Math.abs(startX - endX), Math.abs(startY - endY));
+        }
+        //Math.abs()를 굳이 사용 안해도 잘 되네??
+        
         paintingRect = false;
     }
     
@@ -188,6 +198,7 @@ function onMouseDownRect(event){
     paintingRect = true;
     startX = event.offsetX;
     startY = event.offsetY;
+    console.log(startX);
     
     // const startX = event.offsetX;
     // const startY = event.offsetY;
