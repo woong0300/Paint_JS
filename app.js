@@ -3,8 +3,15 @@ const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
+const saveBtn = document.getElementById("jsSave");
+const INITIAL_COLOR = "#2c2c2c";
 
-ctx.strokeStyle = "#2c2c2c";
+//캔버스의 배경이 없는 상태를 막기위해 흰 바탕으로 초기화 해주기!!
+ctx.fillStyle ="white";
+ctx.fillRect(0, 0, 700, 700);
+
+ctx.strokeStyle = INITIAL_COLOR;
+ctx.fillStyle = INITIAL_COLOR;
 ctx.linewidth = 2.5;
 // console.log(Array.from(colors))
 //html.collections라고 나오는 위의 함수를 통해 어레이로 변환가능~!
@@ -56,7 +63,7 @@ function onMouseMove(event){
 }
 
 function onMouseDown(event){
-    if(!drawingRect){
+    if(!drawingRect&&!filling){
         painting = true;
     }
     
@@ -67,11 +74,9 @@ function onMouseDown(event){
 // screenX, Y와 offsetX, Y는 여기서는 달라
 
 function handleColorCilck(event){
-    
     const color = event.target.style.backgroundColor;
-
-    console.log(event.target.style.backgroundColor);
     ctx.strokeStyle = color;
+    ctx.fillStyle = color;
 }
 
 function handleRangeChange(event){
@@ -89,7 +94,28 @@ function handleModeClick(event){
     else{
         filling = true;
         mode.innerText = "Paint";
+        ctx.fillStyle
     }
+}
+
+function handleCanvasCilck(){
+    if(filling){
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    else{
+
+    }
+    
+}
+
+function handleSaveClick(){
+    //default가 PNG라 아랫줄을 지우면 PNG로 저장될 듯
+    //const image = canvas.toDataURL("image/jpeg");
+    const image = canvas.toDataURL();
+    const link = document.createElement("a");
+    link.href = image;
+    link.download = "PaintJS_your_Drawing";
+    link.click();
 }
 
 if(canvas){
@@ -97,7 +123,8 @@ if(canvas){
         canvas.addEventListener("mousemove", onMouseMove);
         canvas.addEventListener("mousedown", onMouseDown);
         canvas.addEventListener("mouseup", stopPainting);
-        canvas.addEventListener("mouseleave", stopPainting); 
+        canvas.addEventListener("mouseleave", stopPainting);
+        canvas.addEventListener("click",handleCanvasCilck)
     }
     
 }
@@ -112,6 +139,9 @@ if(mode){
     mode.addEventListener("click", handleModeClick);
 }
 
+if(saveBtn){
+    saveBtn.addEventListener("click", handleSaveClick);
+}
 
 
 //나만의 부가함수 - 사각형 그리기!!
@@ -143,6 +173,8 @@ function handleRectClick(event){
         event.target.style.backgroundColor = "white";
     }
 }
+//포인터를 좌상향으로 움직여서 그리면 사각형이 반대방향으로 그려지는 버그!!
+//우하향으로 대각선을 인식해서 그리는 방식이라 오류가 있다!!!
 function onMouseUpRect(event){
     if(drawingRect){
         endX = event.offsetX;
@@ -171,6 +203,10 @@ function onMouseMoveRect(event){
         
     }
 }
+//마우스 우클릭을 막아줄 수 있다
+function handleCM(event){
+    event.preventDefault();
+}
 
 if(rect){
     if(!painting){
@@ -179,6 +215,7 @@ if(rect){
         canvas.addEventListener("mousedown", onMouseDownRect);
         canvas.addEventListener("mouseup", onMouseUpRect);
         canvas.addEventListener("mouseleave", stopPaintingRect);
+        canvas.addEventListener("contextmenu", handleCM);
     }
     
 }
